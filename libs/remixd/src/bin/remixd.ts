@@ -64,6 +64,7 @@ function errorHandler (error: any, service: string) {
     .description('Provide a two-way connection between the local computer and Remix IDE')
     .option('-u, --remix-ide  <url>', 'URL of remix instance allowed to connect to this web sockect connection')
     .option('-s, --shared-folder <path>', 'Folder to share with Remix IDE')
+    .option('-i, --install <name>', 'Module name to install locally')
     .option('-r, --read-only', 'Treat shared folder as read-only (experimental)')
     .on('--help', function () {
       console.log('\nExample:\n\n    remixd -s ./ -u http://localhost:8080')
@@ -71,6 +72,12 @@ function errorHandler (error: any, service: string) {
   // eslint-disable-next-line
 
   await warnLatestVersion()
+
+  if(program.install && !program.readOnly) {
+    const availableModulesToInstall = ['slither']
+    const service = program.install
+    if(availableModulesToInstall.includes(program.install)) services[service](false)['install']()
+  }
 
   if (!program.remixIde) {
     console.log('\x1b[33m%s\x1b[0m', '[WARN] You can only connect to remixd from one of the supported origins.')
