@@ -17,15 +17,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Use Node.js 18
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           cache: npm
-          node-version: 18
+          node-version: 14
 
       - name: Install npm deps
         if: steps.cache-npm.outputs.cache-hit != 'true'
-        run: npm i -f # There are some incompatible versions
+        run: npm ci
 
       - name: Build typescrip libraries
         run: npm run build
