@@ -26,8 +26,11 @@ jobs:
         if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm ci
 
-      - name: Build typescrip libraries
+      - name: Build typescript libraries
         run: npm run build
+
+      - name: Install @nrwl/cli globally
+        run: npm i -g @nrwl/cli build     
 
       - name: Build the project
         run: npx @nrwl/cli build       
