@@ -30,10 +30,10 @@ jobs:
         run: npm run build
 
       - name: Install @nrwl/cli globally
-        run: npm i -g @nrwl/cli build     
+        run: npm i -g @nrwl/cli
 
       - name: Build the project
-        run: npx @nrwl/cli build       
+        run: nx build       
 
       - name: Create preview
         uses: ethersphere/swarm-actions/pr-preview@v0
