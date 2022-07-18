@@ -35,13 +35,24 @@ jobs:
         run: rm -rf `find ./dist/apps/remix-ide/ | grep -e '.js.map$'`
 
       - name: Upload to Swarm
-        uses: ethersphere/swarm-actions/upload-dir@v0
-        with:
-          bee-url: https://unlimited.gateway.ethswarm.org
-          dir: ./dist/apps/remix-ide/
-          error-document: index.html
-          index-document: index.html
-          headers: "${{ secrets.GATEWAY_AUTHORIZATION_HEADER }}"
+        run: |
+          npx swarm-cli upload \
+            --bee-api-url https://unlimited.gateway.ethswarm.org \
+            -q --stamp 0000000000000000000000000000000000000000000000000000000000000000 \
+            --index-document index.html \
+            --error-document index.html \
+            -H  "${{ secrets.GATEWAY_AUTHORIZATION_HEADER }}"  \
+            --size-check false \
+            dist/apps/remix-ide
+
+      # - name: Upload to Swarm
+      #   uses: ethersphere/swarm-actions/upload-dir@v0
+      #   with:
+      #     bee-url: https://unlimited.gateway.ethswarm.org
+      #     dir: ./dist/apps/remix-ide/
+      #     error-document: index.html
+      #     index-document: index.html
+      #     headers: "${{ secrets.GATEWAY_AUTHORIZATION_HEADER }}"
 
       # - name: Create preview
       #   uses: ethersphere/swarm-actions/pr-preview@v0
