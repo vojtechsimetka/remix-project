@@ -34,10 +34,19 @@ jobs:
       - name: Erase map files
         run: rm -rf `find ./dist/apps/remix-ide/ | grep -e '.js.map$'`
 
-      - name: Create preview
-        uses: ethersphere/swarm-actions/pr-preview@v0
+      - name: Upload to Swarm
+        uses: ethersphere/swarm-actions/upload-dir@v0
         with:
           bee-url: https://unlimited.gateway.ethswarm.org
           dir: ./dist/apps/remix-ide/
           error-document: index.html
+          index-document: index.html
           headers: "${{ secrets.GATEWAY_AUTHORIZATION_HEADER }}"
+
+      # - name: Create preview
+      #   uses: ethersphere/swarm-actions/pr-preview@v0
+      #   with:
+      #     bee-url: https://unlimited.gateway.ethswarm.org
+      #     dir: ./dist/apps/remix-ide/
+      #     error-document: index.html
+      #     headers: "${{ secrets.GATEWAY_AUTHORIZATION_HEADER }}"
