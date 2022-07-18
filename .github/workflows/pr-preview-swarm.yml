@@ -28,11 +28,8 @@ jobs:
       - name: Build typescript libraries
         run: yarn run build
 
-      - name: Install @nrwl/cli globally
-        run: yarn global add @nrwl/cli
-
       - name: Build the project
-        run: nx build       
+        run: npx nx build       
 
       - name: Create preview
         uses: ethersphere/swarm-actions/pr-preview@v0
