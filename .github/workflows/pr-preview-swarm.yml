@@ -42,7 +42,6 @@ jobs:
             --index-document index.html \
             --error-document index.html \
             -H  "${{ secrets.GATEWAY_AUTHORIZATION_HEADER }}"  \
-            --size-check false \
             dist/apps/remix-ide
 
       # - name: Upload to Swarm
