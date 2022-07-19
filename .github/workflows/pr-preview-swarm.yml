@@ -34,24 +34,25 @@ jobs:
       - name: Erase map files
         run: rm -rf `find ./dist/apps/remix-ide/ | grep -e '.js.map$'`
 
-      - name: Upload to Swarm
-        run: |
-          npx @ethersphere/swarm-cli upload \
-            --bee-api-url https://unlimited.gateway.ethswarm.org \
-            -q --stamp 0000000000000000000000000000000000000000000000000000000000000000 \
-            --index-document index.html \
-            --error-document index.html \
-            -H  "${{ secrets.GATEWAY_AUTHORIZATION_HEADER }}"  \
-            dist/apps/remix-ide
-
       # - name: Upload to Swarm
-      #   uses: ethersphere/swarm-actions/upload-dir@v0
-      #   with:
-      #     bee-url: https://unlimited.gateway.ethswarm.org
-      #     dir: ./dist/apps/remix-ide/
-      #     error-document: index.html
-      #     index-document: index.html
-      #     headers: "${{ secrets.GATEWAY_AUTHORIZATION_HEADER }}"
+      #   run: |
+      #     npx @ethersphere/swarm-cli upload \
+      #       --bee-api-url https://unlimited.gateway.ethswarm.org \
+      #       -q --stamp 0000000000000000000000000000000000000000000000000000000000000000 \
+      #       --index-document index.html \
+      #       --error-document index.html \
+      #       -H  "${{ secrets.GATEWAY_AUTHORIZATION_HEADER }}"  \
+      #       dist/apps/remix-ide
+
+      - name: Upload to Swarm
+        uses: ethersphere/swarm-actions/upload-dir@v0
+        with:
+          bee-url: https://unlimited.gateway.ethswarm.org
+          dir: ./dist/apps/remix-ide/
+          error-document: index.html
+          index-document: index.html
+          headers: "${{ secrets.GATEWAY_AUTHORIZATION_HEADER }}"
+          timeout: 600000 # 10 minutes
 
       # - name: Create preview
       #   uses: ethersphere/swarm-actions/pr-preview@v0
