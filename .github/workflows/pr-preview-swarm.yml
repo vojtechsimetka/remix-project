@@ -1,0 +1,44 @@
+name: Check
+
+on:
+  push:
+    branches:
+      - 'master'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          cache: yarn
+          node-version: 14
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build typescript libraries
+        run: yarn run build
+
+      - name: Build the project
+        run: npx nx build       
+
+      - name: Erase map files
+        run: rm -rf `find ./dist/apps/remix-ide/ | grep -e '.js.map$'`
+
+      - name: Create preview
+        uses: ethersphere/swarm-actions/pr-preview@v0
+        with:
+          bee-url: https://unlimited.gateway.ethswarm.org
+          dir: ./dist/apps/remix-ide/
+          error-document: index.html
+          headers: "${{ secrets.GATEWAY_AUTHORIZATION_HEADER }}"
+          timeout: 600000 # 10 minutes
