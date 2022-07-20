@@ -41,3 +41,4 @@ jobs:
           dir: ./dist/apps/remix-ide/
           error-document: index.html
           headers: "${{ secrets.GATEWAY_AUTHORIZATION_HEADER }}"
+          timeout: 600000 # 10 minutes
